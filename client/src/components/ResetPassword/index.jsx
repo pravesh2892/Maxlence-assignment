@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link,  useNavigate } from "react-router-dom";
+import axios from 'axios';
 import styles from "./styles.module.css";
 
 function ResetPassword() {
@@ -7,36 +8,23 @@ function ResetPassword() {
     const [token, setToken] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [message1, setMessage1] = useState("");
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
     const handleResetPasswordRequest = async () => {
-        try {
-          const response = await fetch('http://localhost:8080/api/auth/reset-password', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email }),
-          });
-          const data = await response.json();
-          setMessage(data.message);
-        } catch (error) {
-          console.error("Error:", error);
-        }
+      try {
+        const response = await axios.post('http://localhost:8080/api/auth/reset-password', { email }); 
+        setMessage1(response.message)
+      } catch (error) {
+        console.error("Error:", error);
+      }
       };
     
       const handleResetPassword = async () => {
         try {
-          const response = await fetch('http://localhost:8080/api/auth/reset-password-update', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ token, password }),
-          });
-          const data = await response.json();
-          setMessage(data.message);
+          const response = await axios.post('http://localhost:8080/api/auth/reset-password-update', { token, password }); 
+          setMessage(response.message);
         } catch (error) {
           console.error("Error:", error);
         }
@@ -57,6 +45,7 @@ function ResetPassword() {
           onChange={(e) => setEmail(e.target.value)}
           className={styles.input}
         />
+        {message1 && <p>{message1}</p>}
         <button
          onClick={handleResetPasswordRequest}
          className={styles.green_btn}
