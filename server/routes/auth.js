@@ -56,20 +56,30 @@ router.post("/reset-password", async (req, res) => {
         if (error) return res.status(400).send({ message: error.details[0].message });
         const user = await User.findOne({ email: req.body.email });
         if (!user) return res.status(400).send({ message: "Invalid email address" });
-        let token = await Token.findOne({ userId: user._id });
-        if (token) {
-            token.token = crypto.randomBytes(32).toString("hex");
+
+       
+        const token = Math.floor(100000 + Math.random() * 900000).toString();
+
+        let existingToken = await Token.findOne({ userId: user._id });
+        if (existingToken) {
+            
+            existingToken.token = token;
         } else {
-            token = new Token({ userId: user._id, token: crypto.randomBytes(32).toString("hex") });
+           
+            existingToken = new Token({ userId: user._id, token });
         }
-        await token.save();
-        await sendEmail(user.email, "Password Reset", `Your password reset token is: ${token.token}`);
+
+       
+        await existingToken.save();
+
+        await sendEmail(user.email, "Password Reset", `Your password reset token is: ${token}`);
         res.status(200).send({ message: "Password reset token sent to your email" });
     } catch (error) {
         console.error(error);
         res.status(500).send({ message: "Internal Server Error" });
     }
 });
+
 
 
 
