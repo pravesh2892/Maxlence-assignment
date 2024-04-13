@@ -5,9 +5,11 @@ import { Form } from "react-bootstrap";
 import styles from "./styles.module.css";
 import logo from "../../images/logo1.png"
 import MyContextProvider, { MyContext } from '../../utils/MyContext';
+import { Button, Form as ReactForm } from 'react-bootstrap';
 
 const API_URL = "https://api.unsplash.com/search/photos";
 const API_URL_key = "eiDtxHn17pKoHmf7n1oipoFNfcJDwwg5IeXI8vfjQJo";
+const IMAGES_PER_PAGE = 10;
 
 const Main = () => {
   const searchInput = useRef(null);
@@ -15,6 +17,7 @@ const Main = () => {
   const [page, setPage] = useState(1);
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [user, setUser] = useState(null); 
   const navigate = useNavigate();
@@ -27,22 +30,23 @@ const Main = () => {
     }
   }, []);
 
+
   const fetchImages = useCallback(async () => {
     try {
       if (searchInput.current.value) {
-        setErrorMsg("");
+        setErrorMsg('');
         setLoading(true);
         const { data } = await axios.get(
           `${API_URL}?query=${
             searchInput.current.value
-          }&page=${page}&per_page=30&client_id=${API_URL_key}`
+          }&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${API_URL_key}`
         );
-        setImages((prevImages) => [...prevImages, ...data.results]);
-        setHasMore(data.results.length > 0);
+        setImages(data.results);
+        setTotalPages(data.total_pages);
         setLoading(false);
       }
     } catch (error) {
-      setErrorMsg("Error fetching images. Try again later.");
+      setErrorMsg('Error fetching images. Try again later.');
       console.log(error);
       setLoading(false);
     }
@@ -65,26 +69,6 @@ const Main = () => {
     setImages([]);
     fetchImages();
   };
-
- 
-
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
-    ) {
-      if (hasMore) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [handleScroll]);
 
 
   const handleLogout = () => {
@@ -140,6 +124,14 @@ const Main = () => {
                 />
               ))}
             </div>
+            <div className={styles.buttons}>
+            {page > 1 && (
+              <Button className={styles.next_btn} onClick={() => setPage(page - 1)}>Previous</Button>
+            )}
+            {page < totalPages && (
+              <Button  className={styles.next_btn} onClick={() => setPage(page + 1)}>Next</Button>
+            )}
+          </div>
           </>
         )}
       </div>
