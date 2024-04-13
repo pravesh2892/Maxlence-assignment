@@ -103,6 +103,12 @@
 	margin: 10px;
 }
 
+.image_preview{
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	border: 1px solid #3bb19b;
+}
 
 @media (max-width: 768px) {
 	
