@@ -11,7 +11,7 @@ const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const {setName, setSurname, setEmail} = useContext(MyContextProvider);
+
  
 
   const handleChange = ({ currentTarget: input }) => {
@@ -29,9 +29,7 @@ const Login = () => {
       const url = "http://localhost:8080/api/auth";
       const { data: { user, token } } = await axios.post(url, data);
       console.log("User data", user);
-      setName(user.name);
-      setSurname(user.surname);
-      setEmail(user.email)
+    
       localStorage.setItem("token", token);
 
       alert("login successfully ")

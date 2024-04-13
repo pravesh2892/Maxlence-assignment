@@ -21,6 +21,15 @@ const RegisterUser = () => {
     fetchUsers();
   }, [fetchUsers]);
 
+  const deleteUser = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/users/${id}`);
+      setUsers(users.filter(user => user._id !== id));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
   return (
     <div>
       <div className={styles.userlist}>
@@ -30,6 +39,7 @@ const RegisterUser = () => {
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -39,14 +49,14 @@ const RegisterUser = () => {
                   {user.firstName} {user.lastName}
                 </td>
                 <td>{user.email}</td>
+                <td>
+                  <button onClick={() => deleteUser(user._id)}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
-        <button onClick={()=>{navigate('/')}}
-        className={styles.green_btn}
-        >Back</button>
-
+        <button onClick={() => { navigate('/') }} className={styles.green_btn}>Back to Home</button>
       </div>
     </div>
   );

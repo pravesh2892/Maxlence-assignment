@@ -18,7 +18,7 @@ const Main = () => {
   const [hasMore, setHasMore] = useState(true);
   const [user, setUser] = useState(null); 
   const navigate = useNavigate();
-  const { name, surname, email } = useContext(MyContext);
+  // const { name, surname, email } = useContext(MyContext);
 
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem("user");
