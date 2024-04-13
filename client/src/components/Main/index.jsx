@@ -90,7 +90,7 @@ const Main = () => {
           <Form onSubmit={handleSearch}>
             <Form.Control
               type="search"
-              placeholder="🔍 Type something to search..."
+              placeholder="🔍 search photos..."
               className={styles.search_input}
               ref={searchInput}
             />
