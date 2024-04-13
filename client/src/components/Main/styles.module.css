@@ -4,7 +4,7 @@
 	background-color: #3bb19b;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: space-around;
 }
 
 .navbar h1 {
@@ -13,6 +13,52 @@
 	margin-left: 20px;
 }
 
+.pagination {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+  }
+  
+  .page {
+	border: 1px solid #3bb19b;
+	background-color: white;
+	color: #3bb19b;
+	padding: 5px 10px;
+	margin: 0 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .page:hover {
+	background-color: #3bb19b;
+	color: white;
+  }
+  
+  .activePage {
+	background-color: #3bb19b;
+	color: white;
+	padding: 5px 10px;
+	margin: 0 5px;
+	border-radius: 5px;
+	cursor: default;
+  }
+  
+.logo{
+	width: 4%;
+	
+	
+}
+
+.nav_menu{
+	background: transparent;
+	border: none;
+	font-size: 16px;
+	cursor: pointer;
+	font-weight: bold;
+	color: white;
+	margin-left: 0;
+}
 .white_btn {
 	border: none;
 	outline: none;
@@ -79,11 +125,13 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: var(--default-margin);
+	
   }
   
   .search_section .search_input{
 	min-width: 500px;
+	border-radius: 25px;
+	border: transparent;
 	padding: var(--default-spacing);
   }
   

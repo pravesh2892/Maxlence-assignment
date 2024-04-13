@@ -5,6 +5,8 @@ import Signup from "./components/Singup";
 import Login from "./components/Login";
 import EmailVerify from "./components/EmailVerify";
 import ResetPassword from "./components/ResetPassword";
+import RegisterUser from "./components/registeredUser/registerUser";
+
 
 
 function App() {
@@ -18,6 +20,7 @@ function App() {
 			<Route path="/" element={<Navigate replace to="/login" />} />
 			<Route path="/users/:id/verify/:token" element={<EmailVerify />} />
 			<Route path ="/reset" element ={<ResetPassword />} />
+			<Route path="/user" element ={ <RegisterUser />} />
 			
 		</Routes>
 	);

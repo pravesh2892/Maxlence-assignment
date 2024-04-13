@@ -1,15 +1,17 @@
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import styles from "./styles.module.css";
+import MyContextProvider from "../../utils/MyContext"
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const {setName, setSurname, setEmail} = useContext(MyContextProvider);
  
 
   const handleChange = ({ currentTarget: input }) => {
@@ -25,8 +27,13 @@ const Login = () => {
     e.preventDefault();
     try {
       const url = "http://localhost:8080/api/auth";
-      const { data: res } = await axios.post(url, data);
-      localStorage.setItem("token", res.data);
+      const { data: { user, token } } = await axios.post(url, data);
+      console.log("User data", user);
+      setName(user.name);
+      setSurname(user.surname);
+      setEmail(user.email)
+      localStorage.setItem("token", token);
+
       alert("login successfully ")
       window.location = "/";
     } catch (error) {
