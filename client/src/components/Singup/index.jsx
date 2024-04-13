@@ -72,20 +72,26 @@ const Signup = () => {
         <div className={styles.right}>
           <form className={styles.form_container} onSubmit={handleSubmit}>
             <h1>Create Account</h1>
-			{imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Profile Preview"
-                className={styles.image_preview}
+            <div className={styles.circular_input_container}>
+              {imagePreview ? (
+                <div className={styles.circular_image_preview}>
+                  <img src={imagePreview} alt="Profile Preview" />
+                </div>
+              ) : (
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlAU_is3KC3dMqvM79W0MgirCJ1qO5CfxX1w&usqp=CAU"
+                  alt="Add Photo"
+                  className={styles.default_image}
+                />
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                name="profileImage"
+                onChange={handleChange}
+                className={styles.circular_input}
               />
-            )}
-			<input
-              type="file"
-              accept="image/*"
-              name="profileImage"
-              onChange={handleChange}
-              className={styles.input}
-            />
+            </div>
             <input
               type="text"
               placeholder="First Name"

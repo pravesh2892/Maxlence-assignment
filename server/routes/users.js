@@ -23,7 +23,7 @@ const storage = new CloudinaryStorage({
     allowed_formats: ["jpg", "jpeg", "png"]
   }
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage })
 
 // POST /api/users - Create a new user with profile image upload
 router.post("/", upload.single("profileImage"), async (req, res) => {
