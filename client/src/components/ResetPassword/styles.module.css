@@ -54,3 +54,19 @@
 	margin-top: 10px;
 	cursor: pointer;
 }
+
+@media only screen and (max-width: 768px) {
+	.reset_form_container {
+	  width: 90%;
+	}
+  
+	.input {
+	  width: 100%;
+	  max-width: none;
+	}
+  
+	.green_btn {
+	  width: 100%;
+	  max-width: none;
+	}
+  }

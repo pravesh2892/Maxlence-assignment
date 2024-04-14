@@ -146,10 +146,7 @@
 	margin-top: 20px;
 	font-size: 20px;
   }
-  
-  /* common css ends */
-  
-  /* search section starts */
+
   
   .search_section{
 	display: flex;
@@ -169,10 +166,7 @@
 	margin-left: 10px;
   }
   
-  /* search section ends */
-  
-  /* filters section starts */
-  
+
   .filters {
 	display: flex;
 	justify-content: center;
@@ -190,10 +184,7 @@
 	cursor: pointer;
   }
   
-  /* filters section ends */
-  
-  /* images section starts */
-  
+
   .images {
 	margin-top: 3rem;
 	display: grid;
@@ -279,6 +270,21 @@
 	.images {
 	  grid-template-columns: repeat(2, 1fr);
 	}
+	.navbar {
+		flex-direction: column;
+		height: auto;
+		padding: 10px; 
+		align-items: flex-start;
+	  }
+	
+	  .navbar h1 {
+		margin-bottom: 10px; 
+	  }
+	
+	  .nav_menu {
+		margin-top: 10px; 
+		margin-bottom: 10px; 
+	  }
 	
   }
   
