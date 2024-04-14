@@ -7,6 +7,8 @@ const sendEmail = require("../utils/sendEmail");
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("cloudinary").v2;
+const Joi = require('joi');
+
 
 // Configure Cloudinary
 cloudinary.config({
@@ -81,8 +83,6 @@ router.get("/:id/verify/:token/", async (req, res) => {
       token: req.params.token,
     });
     if (!token) return res.status(400).send({ message: "Invalid link" });
-
-    // Update user's verification status and remove token
     await User.updateOne({ _id: user._id }, { verified: true });
     await token.remove();
 
@@ -116,5 +116,41 @@ router.delete("/:id", async (req, res) => {
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
+
+router.put("/:id", async (req, res) => {
+  try {
+    const { error } = validateUpdate(req.body);
+    if (error) {
+      return res.status(400).send({ message: error.details[0].message });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
+
+
+const validateUpdate = (data) => {
+  const schema = Joi.object({
+    firstName: Joi.string().required().label("First Name"),
+    lastName: Joi.string().required().label("Last Name"),
+    email: Joi.string().email().required().label("Email"),
+  });
+  return schema.validate(data);
+};
 
 module.exports = router;

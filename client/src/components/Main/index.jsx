@@ -1,11 +1,13 @@
 import axios from "axios";
 import { useCallback, useEffect, useRef, useState, useContext } from "react";
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import styles from "./styles.module.css";
-import logo from "../../images/logo1.png"
-import MyContextProvider, { MyContext } from '../../utils/MyContext';
-import { Button, Form as ReactForm } from 'react-bootstrap';
+import logo from "../../images/logo1.png";
+import { HiMiniUserCircle } from "react-icons/hi2";
+import { BsThreeDotsVertical } from "react-icons/bs";
+
+import { Button, Form as ReactForm } from "react-bootstrap";
 
 const API_URL = "https://api.unsplash.com/search/photos";
 const API_URL_key = "eiDtxHn17pKoHmf7n1oipoFNfcJDwwg5IeXI8vfjQJo";
@@ -19,10 +21,16 @@ const Main = () => {
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [user, setUser] = useState(null); 
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
-  // const { name, surname, email } = useContext(MyContext);
 
+  const userEmail = localStorage.getItem("email");
+  const userName = localStorage.getItem("name");
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem("user");
     if (userFromLocalStorage) {
@@ -30,23 +38,20 @@ const Main = () => {
     }
   }, []);
 
-
   const fetchImages = useCallback(async () => {
     try {
       if (searchInput.current.value) {
-        setErrorMsg('');
+        setErrorMsg("");
         setLoading(true);
         const { data } = await axios.get(
-          `${API_URL}?query=${
-            searchInput.current.value
-          }&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${API_URL_key}`
+          `${API_URL}?query=${searchInput.current.value}&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${API_URL_key}`
         );
         setImages(data.results);
         setTotalPages(data.total_pages);
         setLoading(false);
       }
     } catch (error) {
-      setErrorMsg('Error fetching images. Try again later.');
+      setErrorMsg("Error fetching images. Try again later.");
       console.log(error);
       setLoading(false);
     }
@@ -70,22 +75,44 @@ const Main = () => {
     fetchImages();
   };
 
-
   const handleLogout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("user")
+    localStorage.removeItem("email");
+    localStorage.removeItem("name");
     window.location.reload();
   };
-
-
+  const DropdownMenu = () => {
+    return (
+      <div className={styles.dropdownMenu}>
+        <button
+          onClick={() => {
+            navigate("/profile");
+          }}
+          className={styles.white_btn}
+        >
+          My Profile
+        </button>
+        <button className={styles.white_btn} onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
+    );
+  };
   return (
     <div className={styles.main_container}>
       <nav className={styles.navbar}>
         <img className={styles.logo} src={logo} alt="logo" />
-        
-        <button className={styles.nav_menu} onClick={()=>{navigate('/user')}}>
-        Registered user</button>
-       
+        {userEmail === "pravesh.meena2892@gmail.com" && userEmail && (
+          <button
+            className={styles.nav_menu}
+            onClick={() => {
+              navigate("/user");
+            }}
+          >
+            Registered user
+          </button>
+        )}
+
         <div className={styles.search_section}>
           <Form onSubmit={handleSearch}>
             <Form.Control
@@ -96,14 +123,19 @@ const Main = () => {
             />
           </Form>
         </div>
-       
-        <button className={styles.white_btn} onClick={handleLogout}>
-          Logout
-        </button>
+        <div className={styles.user_contanier}>
+          <HiMiniUserCircle className={styles.svg_user} />
+          <h1>{userName}</h1>
+          <BsThreeDotsVertical
+            className={styles.svg_drop}
+            onClick={toggleDropdown}
+          />
+          {dropdownVisible && <DropdownMenu />}
+        </div>
       </nav>
       <div className={styles.container}>
         {errorMsg && <p className={styles.error_msg}>{errorMsg}</p>}
-       
+
         <div className={styles.filters}>
           <div onClick={() => handleSelection("nature")}>Nature</div>
           <div onClick={() => handleSelection("birds")}>Birds</div>
@@ -125,13 +157,23 @@ const Main = () => {
               ))}
             </div>
             <div className={styles.buttons}>
-            {page > 1 && (
-              <Button className={styles.next_btn} onClick={() => setPage(page - 1)}>Previous</Button>
-            )}
-            {page < totalPages && (
-              <Button  className={styles.next_btn} onClick={() => setPage(page + 1)}>Next</Button>
-            )}
-          </div>
+              {page > 1 && (
+                <Button
+                  className={styles.next_btn}
+                  onClick={() => setPage(page - 1)}
+                >
+                  Previous
+                </Button>
+              )}
+              {page < totalPages && (
+                <Button
+                  className={styles.next_btn}
+                  onClick={() => setPage(page + 1)}
+                >
+                  Next
+                </Button>
+              )}
+            </div>
           </>
         )}
       </div>

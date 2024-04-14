@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import EmailVerify from "./components/EmailVerify";
 import ResetPassword from "./components/ResetPassword";
 import RegisterUser from "./components/registeredUser/registerUser";
+import MyProfile from "./components/myProfile/myProfile";
 
 
 
@@ -21,6 +22,7 @@ function App() {
 			<Route path="/users/:id/verify/:token" element={<EmailVerify />} />
 			<Route path ="/reset" element ={<ResetPassword />} />
 			<Route path="/user" element ={ <RegisterUser />} />
+			<Route path="profile" element ={<MyProfile />} />
 			
 		</Routes>
 	);

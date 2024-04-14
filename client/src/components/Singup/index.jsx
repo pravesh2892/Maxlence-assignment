@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState,  } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
+
 
 const Signup = () => {
   const [data, setData] = useState({
@@ -13,13 +14,13 @@ const Signup = () => {
   });
   const [error, setError] = useState("");
   const [msg, setMsg] = useState("");
-  const [imagePreview, setImagePreview] = useState(null); // State for image preview
-
+  const [imagePreview, setImagePreview] = useState(null); 
+ 
   const handleChange = ({ target }) => {
     if (target.name === "profileImage") {
       setData({ ...data, profileImage: target.files[0] });
 
-      // Display image preview
+      
       const reader = new FileReader();
       reader.onload = () => {
         setImagePreview(reader.result);

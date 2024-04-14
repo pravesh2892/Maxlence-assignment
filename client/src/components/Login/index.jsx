@@ -1,18 +1,14 @@
-
 import { useState, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import styles from "./styles.module.css";
-import MyContextProvider from "../../utils/MyContext"
 
 const Login = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
- 
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -22,17 +18,20 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
- 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const url = "http://localhost:8080/api/auth";
-      const { data: { user, token } } = await axios.post(url, data);
+      const {
+        data: { user, token },
+      } = await axios.post(url, data);
       console.log("User data", user);
-    
-      localStorage.setItem("token", token);
 
-      alert("login successfully ")
+      localStorage.setItem("token", token);
+      localStorage.setItem("email", user.email);
+      localStorage.setItem("name", user.name);
+
+      alert("login successfully ");
       window.location = "/";
     } catch (error) {
       if (
@@ -82,11 +81,12 @@ const Login = () => {
               </span>
             </div>
             {error && <div className={styles.error_msg}>{error}</div>}
-            <Link to="/reset" className={styles.forgot_btn}>Forgot password?</Link>
+            <Link to="/reset" className={styles.forgot_btn}>
+              Forgot password?
+            </Link>
             <button type="submit" className={styles.green_btn}>
               Sign In
             </button>
-
           </form>
         </div>
         <div className={styles.right}>
