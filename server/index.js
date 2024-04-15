@@ -7,6 +7,15 @@ const authRoutes = require("./routes/auth");
 
 const app = express();
 
+app.use(cors(
+    {
+        origin: ["https://deploye-mern-1whq.vercel.app"],
+        methods: [ "POST", "GET"],
+        credentials: true
+    }
+));
+app.use(express,express.json());
+
 // Database connection
 connection();
 
