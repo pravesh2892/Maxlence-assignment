@@ -18,7 +18,7 @@ function MyProfile() {
     const fetchUserData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:8080/api/users', {
+        const response = await axios.get('https://deploye-mern-api.vercel.app/users', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

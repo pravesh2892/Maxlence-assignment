@@ -14,7 +14,7 @@ function ResetPassword() {
 
     const handleResetPasswordRequest = async () => {
       try {
-        const response = await axios.post('http://localhost:8080/api/auth/reset-password', { email }); 
+        const response = await axios.post('https://deploye-mern-api.vercel.app/auth/reset-password', { email }); 
         setMessage1(response.message)
       } catch (error) {
         console.error("Error:", error);
@@ -23,7 +23,7 @@ function ResetPassword() {
     
       const handleResetPassword = async () => {
         try {
-          const response = await axios.post('http://localhost:8080/api/auth/reset-password-update', { token, password }); 
+          const response = await axios.post('https://deploye-mern-api.vercel.app/auth/reset-password-update', { token, password }); 
           setMessage(response.message);
         } catch (error) {
           console.error("Error:", error);

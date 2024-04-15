@@ -9,7 +9,7 @@ const RegisterUser = () => {
 
   const fetchUsers = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/users");
+      const response = await axios.get("https://deploye-mern-api.vercel.app/users");
       setUsers(response.data);
       console.log("user data" + response.data);
     } catch (error) {
@@ -23,7 +23,7 @@ const RegisterUser = () => {
 
   const deleteUser = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/users/${id}`);
+      await axios.delete(`https://deploye-mern-api.vercel.app/users/${id}`);
       setUsers(users.filter(user => user._id !== id));
     } catch (error) {
       console.error("Error deleting user:", error);

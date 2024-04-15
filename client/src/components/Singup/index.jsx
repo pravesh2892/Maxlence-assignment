@@ -41,7 +41,7 @@ const Signup = () => {
       formData.append("password", data.password);
       formData.append("profileImage", data.profileImage);
 
-      const url = "http://localhost:8080/api/users";
+      const url = "https://deploye-mern-api.vercel.app//users";
       const { data: res } = await axios.post(url, formData, {
         headers: {
           "Content-Type": "multipart/form-data",

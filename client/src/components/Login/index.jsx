@@ -21,7 +21,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:8080/api/auth";
+      const url = "https://deploye-mern-api.vercel.app//auth";
       const {
         data: { user, token },
       } = await axios.post(url, data);
